@@ -7,16 +7,15 @@
   <style>
     :root {
       --primary: #ff5a1f;
+      --primary-soft: #ffe6da;
       --primary-dark: #e04b13;
       --bg: #f7f7f7;
       --card-bg: #ffffff;
       --border: #e0e0e0;
       --text-main: #222222;
       --text-muted: #666666;
-      --status-received: #ffe6da;
-      --status-preparing: #fff6c2;
-      --status-completed: #d4f5dd;
-      --status-cancelled: #ffe4e4;
+      --danger: #e02424;
+      --success: #0f9d58;
     }
 
     * { box-sizing: border-box; }
@@ -30,81 +29,62 @@
     }
 
     h1 {
-      margin: 0 0 8px 0;
-      font-size: 1.4rem;
-      font-weight: 600;
+      margin: 0 0 4px 0;
+      font-size: 1.6rem;
     }
 
     .subtitle {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: var(--text-muted);
       margin-bottom: 16px;
     }
 
     .top-bar {
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
     }
 
-    .last-refresh {
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary);
       font-size: 0.8rem;
-      color: var(--text-muted);
     }
 
-    label {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    select, input[type="password"] {
-      padding: 6px 10px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      font-size: 0.9rem;
-      font-family: inherit;
-    }
-
-    button {
-      border: none;
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
       border-radius: 999px;
-      padding: 7px 14px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      background: var(--primary);
-      color: #fff;
+      font-size: 0.78rem;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
     }
 
-    button.secondary {
-      background: #f0f0f0;
-      color: var(--text-main);
-    }
-
-    button:disabled {
-      opacity: 0.6;
-      cursor: default;
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #0f9d58;
     }
 
     .card {
       background: var(--card-bg);
-      border-radius: 16px;
-      border: 1px solid var(--border);
+      border-radius: 12px;
       padding: 12px;
-      overflow-x: auto;
+      border: 1px solid var(--border);
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       font-size: 0.85rem;
-    }
-
-    thead {
-      background: #fafafa;
     }
 
     th, td {
@@ -115,306 +95,394 @@
     }
 
     th {
-      font-weight: 600;
       font-size: 0.8rem;
+      font-weight: 600;
       color: var(--text-muted);
+      background: #fafafa;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    tr:nth-child(even) td {
+      background: #fcfcfc;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      background: #f3f3f3;
+      color: var(--text-main);
+    }
+
+    .chip.received {
+      background: #fff3e0;
+      color: #e65100;
+    }
+
+    .chip.preparing {
+      background: #e3f2fd;
+      color: #0d47a1;
+    }
+
+    .chip.completed {
+      background: #e8f5e9;
+      color: #1b5e20;
+    }
+
+    .chip.cancelled {
+      background: #ffebee;
+      color: #b71c1c;
+    }
+
+    select {
+      padding: 4px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.8rem;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--primary);
+      color: white;
       white-space: nowrap;
     }
 
-    tbody tr:nth-child(even) {
-      background-color: #fcfcfc;
+    .btn:hover {
+      background: var(--primary-dark);
     }
 
-    .status-pill {
-      display: inline-flex;
+    .btn-small {
+      padding: 4px 10px;
+      font-size: 0.78rem;
+    }
+
+    .toolbar {
+      display: flex;
       align-items: center;
-      padding: 3px 8px;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 500;
-    }
-
-    .status-received {
-      background: var(--status-received);
-      color: #8b3a18;
-    }
-
-    .status-preparing {
-      background: var(--status-preparing);
-      color: #8b6c18;
-    }
-
-    .status-completed {
-      background: var(--status-completed);
-      color: #166534;
-    }
-
-    .status-cancelled {
-      background: var(--status-cancelled);
-      color: #b91c1c;
-    }
-
-    .status-select {
-      margin-right: 6px;
-    }
-
-    .small {
-      font-size: 0.75rem;
+      gap: 8px;
+      font-size: 0.8rem;
+      margin-bottom: 8px;
       color: var(--text-muted);
     }
 
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 1.2rem;
+    .toolbar select {
+      font-size: 0.8rem;
+    }
+
+    .meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .status-message {
+      font-size: 0.8rem;
+      margin-top: 4px;
+      min-height: 18px;
+    }
+
+    .status-message.ok {
+      color: var(--success);
+    }
+
+    .status-message.err {
+      color: var(--danger);
+    }
+
+    @media (max-width: 900px) {
+      table {
+        font-size: 0.8rem;
+      }
+      th, td {
+        padding: 6px 4px;
       }
     }
   </style>
 </head>
 <body>
 
-  <h1>Stars Orders – Admin</h1>
-  <div class="subtitle">
-    Enter your PIN to view and manage all incoming orders.
+<div class="top-bar">
+  <div>
+    <div class="brand">STARS ORDERS</div>
+    <h1>Admin</h1>
+    <div class="subtitle">View and manage all incoming orders from your Google Sheet.</div>
   </div>
-
-  <!-- PIN + controls -->
-  <div class="top-bar">
-    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-      <label for="adminPin">Admin PIN:</label>
-      <input type="password" id="adminPin" placeholder="Enter PIN">
-      <button id="loginBtn">Login</button>
-    </div>
-
-    <div style="display:flex; gap:8px; align-items:center;">
-      <label for="filterStatus">Filter status:</label>
-      <select id="filterStatus">
-        <option value="All">All</option>
-        <option value="Received">Received</option>
-        <option value="Preparing">Preparing</option>
-        <option value="Completed">Completed</option>
-        <option value="Cancelled">Cancelled</option>
-      </select>
-      <button id="refreshBtn" class="secondary">Refresh</button>
-    </div>
+  <div class="pill">
+    <span class="pill-dot"></span>
+    <span>Live dashboard</span>
   </div>
+</div>
 
-  <div class="last-refresh">
-    Last refresh: <span id="lastRefresh">–</span>
+<div class="meta">
+  Last refresh: <span id="lastRefresh">–</span>
+</div>
+
+<div class="toolbar card" style="margin-bottom:10px;">
+  <div>
+    Filter by status:
+    <select id="statusFilter">
+      <option value="All">All</option>
+      <option value="Received">Received</option>
+      <option value="Preparing">Preparing</option>
+      <option value="Completed">Completed</option>
+      <option value="Cancelled">Cancelled</option>
+    </select>
   </div>
+  <button class="btn btn-small" id="refreshBtn">Refresh</button>
+  <div id="toolbarMsg" class="status-message"></div>
+</div>
 
-  <div class="card">
-    <table>
-      <thead>
-        <tr>
-          <th>Order ID</th>
-          <th>Time</th>
-          <th>Location</th>
-          <th>Customer</th>
-          <th>Phone</th>
-          <th>Items</th>
-          <th>Total (₦)</th>
-          <th>Notes</th>
-          <th>Status</th>
-          <th>Update</th>
-        </tr>
-      </thead>
-      <tbody id="ordersBody">
-        <tr><td colspan="10">Please enter PIN and click Login.</td></tr>
-      </tbody>
-    </table>
-  </div>
+<div class="card" style="overflow:auto; max-height: calc(100vh - 170px);">
+  <table id="ordersTable">
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Time</th>
+        <th>Location</th>
+        <th>Customer</th>
+        <th>Phone</th>
+        <th>Items</th>
+        <th>Total (₦)</th>
+        <th>Notes</th>
+        <th>Status</th>
+        <th>Update</th>
+      </tr>
+    </thead>
+    <tbody id="ordersBody">
+      <!-- rows injected here -->
+    </tbody>
+  </table>
+</div>
 
-  <div id="adminMessage" class="small" style="margin-top:8px;"></div>
+<script>
+  // 🔗 SAME SCRIPT URL AS order.html
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykcL-56UBxebRUpFk_01x3vstSjmQ12fwPWZEvSmGEWZlDiP_pYTEMczmDKRXDGdHaXg/exec";
 
-  <script>
-    // 🔗 SAME web app URL as your order page
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykcL-56UBxebRUpFk_01x3vstSjmQ12fwPWZEvSmGEWZlDiP_pYTEMczmDKRXDGdHaXg/exec";
+  const statusOptions = ["Received", "Preparing", "Completed", "Cancelled"];
 
-    const statusOptions = ["Received", "Preparing", "Completed", "Cancelled"];
+  const ordersBody   = document.getElementById("ordersBody");
+  const statusFilter = document.getElementById("statusFilter");
+  const refreshBtn   = document.getElementById("refreshBtn");
+  const lastRefresh  = document.getElementById("lastRefresh");
+  const toolbarMsg   = document.getElementById("toolbarMsg");
 
-    const ordersBody    = document.getElementById("ordersBody");
-    const filterStatus  = document.getElementById("filterStatus");
-    const refreshBtn    = document.getElementById("refreshBtn");
-    const lastRefreshEl = document.getElementById("lastRefresh");
-    const adminMessage  = document.getElementById("adminMessage");
-    const adminPinInput = document.getElementById("adminPin");
-    const loginBtn      = document.getElementById("loginBtn");
+  let allOrders = [];
+  let adminPin  = "";     // we only store it in memory on the page
 
-    let currentPin = "";
-
-    function setMessage(text, isError = false) {
-      adminMessage.textContent = text || "";
-      adminMessage.style.color = isError ? "red" : "#555";
+  // --------------------------------------------------
+  // Ask for PIN and then load data
+  // --------------------------------------------------
+  function askForPin() {
+    const entered = prompt("Enter admin PIN:");
+    if (!entered) {
+      document.body.innerHTML = "<p style='padding:16px;font-family:sans-serif;'>Access cancelled.</p>";
+      throw new Error("PIN entry cancelled");
     }
+    adminPin = entered;
+  }
 
-    function statusClass(status) {
-      const s = (status || "").toLowerCase();
-      if (s === "preparing") return "status-preparing";
-      if (s === "completed") return "status-completed";
-      if (s === "cancelled") return "status-cancelled";
-      return "status-received";
-    }
+  // --------------------------------------------------
+  // Load orders from Apps Script (GET ?mode=orders&pin=...)
+  // --------------------------------------------------
+  async function loadOrders() {
+    try {
+      if (!adminPin) askForPin();
 
-    async function loadOrders() {
-      if (!currentPin) {
-        setMessage("Enter your admin PIN and click Login.", true);
-        ordersBody.innerHTML =
-          "<tr><td colspan='10'>PIN required.</td></tr>";
-        return;
+      toolbarMsg.textContent = "Loading...";
+      toolbarMsg.className = "status-message";
+
+      const filterVal = statusFilter.value || "All";
+      const url = SCRIPT_URL +
+        "?mode=orders" +
+        "&pin=" + encodeURIComponent(adminPin) +
+        "&status=" + encodeURIComponent(filterVal);
+
+      const resp = await fetch(url);
+      const data = await resp.json();
+
+      if (!data.success) {
+        if (data.error === "Unauthorized") {
+          adminPin = "";
+          alert("Wrong PIN. Please try again.");
+          askForPin();
+          return loadOrders();
+        }
+        throw new Error(data.error || "Unknown error");
       }
 
-      const filter = filterStatus.value || "All";
+      allOrders = data.orders || [];
 
-      ordersBody.innerHTML =
-        "<tr><td colspan='10'>Loading orders...</td></tr>";
-      setMessage("");
+      renderOrders();
 
-      try {
-        const resp = await fetch(
-          SCRIPT_URL +
-          "?mode=orders&status=" + encodeURIComponent(filter) +
-          "&pin=" + encodeURIComponent(currentPin)
-        );
-        const data = await resp.json();
+      const tsStr = data.lastRefresh
+        ? new Date(data.lastRefresh).toLocaleString()
+        : new Date().toLocaleString();
+      lastRefresh.textContent = tsStr;
 
-        if (!data.success) {
-          ordersBody.innerHTML =
-            "<tr><td colspan='10' style='color:red;'>Unauthorized or error.</td></tr>";
-          setMessage(data.error || "Invalid PIN or error.", true);
-          return;
-        }
+      toolbarMsg.textContent = "Loaded " + allOrders.length + " orders.";
+      toolbarMsg.className = "status-message ok";
+    } catch (err) {
+      console.error(err);
+      toolbarMsg.textContent = "Error loading orders.";
+      toolbarMsg.className = "status-message err";
+    }
+  }
 
-        const orders = data.orders || [];
-        renderOrders(orders);
+  // --------------------------------------------------
+  // Render table rows with dropdown + Save
+  // --------------------------------------------------
+  function renderOrders() {
+    ordersBody.innerHTML = "";
 
-        const ts = data.lastRefresh
-          ? new Date(data.lastRefresh)
-          : new Date();
-        lastRefreshEl.textContent = ts.toLocaleString();
-
-        if (orders.length === 0) {
-          setMessage("No orders found for this filter.");
-        }
-
-      } catch (err) {
-        console.error(err);
-        ordersBody.innerHTML =
-          "<tr><td colspan='10' style='color:red;'>Error loading orders.</td></tr>";
-        setMessage("Error loading orders. Check script URL / deployment.", true);
-      }
+    if (!allOrders.length) {
+      const tr = document.createElement("tr");
+      const td = document.createElement("td");
+      td.colSpan = 10;
+      td.textContent = "No orders found.";
+      td.style.textAlign = "center";
+      td.style.color = "#777";
+      tr.appendChild(td);
+      ordersBody.appendChild(tr);
+      return;
     }
 
-    function renderOrders(orders) {
-      ordersBody.innerHTML = "";
+    allOrders.forEach(order => {
+      const tr = document.createElement("tr");
 
-      if (!orders.length) {
-        ordersBody.innerHTML =
-          "<tr><td colspan='10'>No orders yet.</td></tr>";
-        return;
-      }
+      const tdOrderId = document.createElement("td");
+      tdOrderId.textContent = order.orderId || "";
+      tr.appendChild(tdOrderId);
 
-      orders.forEach(order => {
-        const tr = document.createElement("tr");
+      const tdTime = document.createElement("td");
+      tdTime.textContent = order.time;
+      tr.appendChild(tdTime);
 
-        function td(text) {
-          const cell = document.createElement("td");
-          cell.textContent = text || "";
-          return cell;
-        }
+      const tdLocation = document.createElement("td");
+      tdLocation.textContent = order.location;
+      tr.appendChild(tdLocation);
 
-        tr.appendChild(td(order.orderId || ""));
-        tr.appendChild(td(order.time || ""));
-        tr.appendChild(td(order.location || ""));
-        tr.appendChild(td(order.customerName || ""));
-        tr.appendChild(td(order.phone || ""));
-        tr.appendChild(td(order.items || ""));
-        tr.appendChild(td(order.total || 0));
-        tr.appendChild(td(order.notes || ""));
+      const tdCustomer = document.createElement("td");
+      tdCustomer.textContent = order.customerName;
+      tr.appendChild(tdCustomer);
 
-        // Status pill
-        const statusTd = document.createElement("td");
-        const pill = document.createElement("span");
-        pill.className = "status-pill " + statusClass(order.status);
-        pill.textContent = order.status || "Received";
-        statusTd.appendChild(pill);
-        tr.appendChild(statusTd);
+      const tdPhone = document.createElement("td");
+      tdPhone.textContent = order.phone;
+      tr.appendChild(tdPhone);
 
-        // Update controls
-        const updateTd = document.createElement("td");
-        const select = document.createElement("select");
-        select.className = "status-select";
+      const tdItems = document.createElement("td");
+      tdItems.textContent = order.items;
+      tr.appendChild(tdItems);
 
-        statusOptions.forEach(opt => {
-          const o = document.createElement("option");
-          o.value = opt;
-          o.textContent = opt;
-          if ((order.status || "Received") === opt) {
-            o.selected = true;
-          }
-          select.appendChild(o);
-        });
+      const tdTotal = document.createElement("td");
+      tdTotal.textContent = order.total;
+      tr.appendChild(tdTotal);
 
-        const saveBtn = document.createElement("button");
-        saveBtn.textContent = "Save";
-        saveBtn.addEventListener("click", () => {
-          saveStatus(order.rowIndex, select.value, saveBtn, pill);
-        });
+      const tdNotes = document.createElement("td");
+      tdNotes.textContent = order.notes;
+      tr.appendChild(tdNotes);
 
-        updateTd.appendChild(select);
-        updateTd.appendChild(saveBtn);
-        tr.appendChild(updateTd);
+      const tdStatus = document.createElement("td");
+      const chip = document.createElement("span");
+      const st = (order.status || "Received");
+      chip.className = "chip " + st.toLowerCase();
+      chip.textContent = st;
+      tdStatus.appendChild(chip);
+      tr.appendChild(tdStatus);
 
-        ordersBody.appendChild(tr);
+      const tdUpdate = document.createElement("td");
+
+      const select = document.createElement("select");
+      statusOptions.forEach(opt => {
+        const o = document.createElement("option");
+        o.value = opt;
+        o.textContent = opt;
+        if (st === opt) o.selected = true;
+        select.appendChild(o);
       });
-    }
 
-    async function saveStatus(rowIndex, newStatus, button, pill) {
-      if (!rowIndex || !currentPin) return;
+      const btn = document.createElement("button");
+      btn.className = "btn btn-small";
+      btn.textContent = "Save";
 
-      button.disabled = true;
-      button.textContent = "Saving...";
-      setMessage("");
+      btn.addEventListener("click", () => {
+        const newStatus = select.value;
+        updateStatus(order.rowIndex, newStatus, chip, order);
+      });
 
-      try {
-        await fetch(SCRIPT_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            action: "updateStatus",
-            rowIndex: rowIndex,
-            status: newStatus,
-            pin: currentPin
-          })
-        });
+      tdUpdate.appendChild(select);
+      tdUpdate.appendChild(document.createTextNode(" "));
+      tdUpdate.appendChild(btn);
 
-        pill.textContent = newStatus;
-        pill.className   = "status-pill " + statusClass(newStatus);
-        setMessage("Status updated.");
+      tr.appendChild(tdUpdate);
 
-      } catch (err) {
-        console.error(err);
-        setMessage("Error updating status. Please try again.", true);
-      } finally {
-        button.disabled = false;
-        button.textContent = "Save";
-      }
-    }
-
-    // When user clicks Login, store PIN in memory and load orders
-    loginBtn.addEventListener("click", () => {
-      const pin = adminPinInput.value.trim();
-      if (!pin) {
-        setMessage("Please enter your admin PIN.", true);
-        return;
-      }
-      currentPin = pin;
-      setMessage("");
-      loadOrders();
+      ordersBody.appendChild(tr);
     });
+  }
 
-    // Change filter or refresh reuses same PIN
-    filterStatus.addEventListener("change", loadOrders);
-    refreshBtn.addEventListener("click", loadOrders);
-  </script>
+  // --------------------------------------------------
+  // Call Apps Script to update status (POST, no-cors)
+  // body: { action:"updateStatus", rowIndex, status, pin }
+  // We DON'T read the JSON response to avoid parse / CORS errors.
+  // --------------------------------------------------
+  async function updateStatus(rowIndex, newStatus, chipEl, orderObj) {
+    try {
+      if (!adminPin) askForPin();
+
+      toolbarMsg.textContent = "Saving...";
+      toolbarMsg.className = "status-message";
+
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify({
+          action: "updateStatus",
+          rowIndex: rowIndex,
+          status: newStatus,
+          pin: adminPin
+        })
+      });
+
+      // Assume success and update UI / local copy
+      orderObj.status = newStatus;
+      chipEl.textContent = newStatus;
+      chipEl.className = "chip " + newStatus.toLowerCase();
+
+      toolbarMsg.textContent = "Status update sent (may take a moment to reflect in the sheet).";
+      toolbarMsg.className = "status-message ok";
+    } catch (err) {
+      console.error(err);
+      toolbarMsg.textContent = "Error updating status.";
+      toolbarMsg.className = "status-message err";
+    }
+  }
+
+  // --------------------------------------------------
+  // Events
+  // --------------------------------------------------
+  statusFilter.addEventListener("change", loadOrders);
+  refreshBtn.addEventListener("click", loadOrders);
+
+  // --------------------------------------------------
+  // Init
+  // --------------------------------------------------
+  (function init() {
+    askForPin();
+    loadOrders();
+  })();
+</script>
+
 </body>
 </html>
