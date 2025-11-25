@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stars Order Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --primary: #ff5a1f;
+      --primary-dark: #e04b13;
+      --bg: #f7f7f7;
+      --card-bg: #ffffff;
+      --border: #e0e0e0;
+      --text-main: #222222;
+      --text-muted: #666666;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+    }
+
+    /* LOGO */
+    .logo-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .logo {
+      max-width: 230px;
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 8px 0;
+      font-weight: 600;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .top-bar {
+      margin-bottom: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primary);
+      font-size: 0.85rem;
+    }
+
+    label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    select, input, textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #ffe6da;
+      color: var(--primary-dark);
+      font-size: 0.8rem;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .left, .right {
+      flex: 1 1 320px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      max-width: 100%;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .section-header small {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .menu-item-card {
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 10px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: stretch;
+      background: #fff;
+    }
+
+    .menu-item-info {
+      flex: 1;
+    }
+
+    .menu-item-name {
+      font-weight: 600;
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+    }
+
+    .menu-item-price {
+      font-size: 0.9rem;
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
+
+    .menu-item-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background: #f0f0f0;
+      color: var(--text-main);
+    }
+
+    .btn-secondary:hover {
+      background: #e3e3e3;
+    }
+
+    .cart-item {
+      border-bottom: 1px solid #f0f0f0;
+      padding: 6px 0;
+      display: flex;
+      justify-content: space_between;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .cart-item-name {
+      font-weight: 500;
+    }
+
+    .cart-qty {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+    }
+
+    .qty-btn {
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      border: none;
+      background: #f0f0f0;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .total-row {
+      margin-top: 8px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+    }
+
+    .customer-form {
+      margin-top: 10px;
+      border-top: 1px dashed #e0e0e0;
+      padding-top: 8px;
+    }
+
+    .message {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      min-height: 18px;
+    }
+
+    .small-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Categories + images */
+    .menu-category {
+      margin-bottom: 12px;
+    }
+
+    .menu-category-title {
+      font-size: 0.95rem;
+      margin: 8px 0;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .menu-item-main {
+      flex: 1;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .menu-item-image {
+      width: 72px;
+      height: 72px;
+      border-radius: 10px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    /* Receipt */
+    .receipt {
+      margin-top: 10px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px dashed var(--border);
+      background: #fafafa;
+      font-size: 0.8rem;
+    }
+
+    .receipt-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .receipt-items {
+      margin: 4px 0;
+      padding-left: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .left, .right {
+        border-radius: 12px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGO -->
+<div class="logo-bar">
+  <img src="stars-logo.png" class="logo" alt="Stars n Stripes Foods">
+</div>
+
+<div class="top-bar">
+  <div>
+    <div class="brand">STARS ORDERS</div>
+    <h1>Place your order</h1>
+    <div class="subtitle">Choose your area, pick items, and we’ll take it from there.</div>
+  </div>
+  <div class="pill">
+    <span>●</span>
+    <span>Live ordering</span>
+  </div>
+</div>
+
+<!-- Customer location (where they are ordering from) -->
+<div style="max-width: 420px; margin-bottom: 16px;">
+  <label for="locationSelect">Where are you ordering from?</label>
+  <select id="locationSelect">
+    <option value="">-- Choose your area --</option>
+    <option value="GTB Abule Egba">GTB Abule Egba</option>
+    <option value="UBA Abule Egba">UBA Abule Egba</option>
+    <option value="Access Bank Abule Egba">Access Bank Abule Egba</option>
+    <option value="First Bank Abule Egba">First Bank Abule Egba</option>
+    <option value="Other">Other (type location)</option>
+  </select>
+  <div id="otherLocationWrapper" style="margin-top:8px; display:none;">
+    <input id="otherLocation" type="text" placeholder="Enter your location">
+    <div class="small-hint">Example: Chevron, Lekki; Abule-Egba; etc.</div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- LEFT: MENU -->
+  <div class="left">
+    <div class="section-header">
+      <h2>Menu</h2>
+      <small id="menuHint">Same menu from all areas</small>
+    </div>
+    <div id="menuContainer"></div>
+  </div>
+
+  <!-- RIGHT: CART + CHECKOUT -->
+  <div class="right">
+    <div class="section-header">
+      <h2>Your cart</h2>
+      <small id="cartCountLabel">0 item</small>
+    </div>
+    <div id="cartContainer"></div>
+    <div class="total-row">
+      <span>Total</span>
+      <span>₦<span id="totalAmount">0</span></span>
+    </div>
+
+    <div class="customer-form">
+      <h3 style="font-size:0.95rem; margin-bottom:4px;">Customer details</h3>
+      <label>
+        Name
+        <input id="customerName" type="text" placeholder="Enter your name">
+      </label>
+      <label>
+        Phone
+        <input id="customerPhone" type="text" placeholder="Enter your phone number">
+      </label>
+      <label style="margin-top:8px;">
+        Notes (optional)
+        <textarea id="orderNotes" placeholder="Extra pepper, no onions, delivery instructions, etc."></textarea>
+      </label>
+
+      <div style="display:flex; gap:8px; margin-top:10px;">
+        <button class="btn" id="placeOrderBtn" style="flex:1;">
+          Confirm & place order
+        </button>
+      </div>
+      <div id="message" class="message"></div>
+      <div id="receipt" class="receipt" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* 1️⃣ GOOGLE APPS SCRIPT URL – SAME AS YOUR OTHER PAGES */
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykcL-56UBxebRUpFk_01x3vstSjmQ12fwPWZEvSmGEWZlDiP_pYTEMczmDKRXDGdHaXg/exec";
+
+  /* 2️⃣ MENU ITEMS – LOADED FROM SHEET */
+  let MENU_ITEMS = [];
+
+  const locationSelect = document.getElementById("locationSelect");
+  const otherLocationWrapper = document.getElementById("otherLocationWrapper");
+  const otherLocationInput = document.getElementById("otherLocation");
+  const menuContainer = document.getElementById("menuContainer");
+  const menuHint = document.getElementById("menuHint");
+  const cartContainer = document.getElementById("cartContainer");
+  const totalAmountSpan = document.getElementById("totalAmount");
+  const cartCountLabel = document.getElementById("cartCountLabel");
+  const customerNameInput = document.getElementById("customerName");
+  const customerPhoneInput = document.getElementById("customerPhone");
+  const notesInput = document.getElementById("orderNotes");
+  const placeOrderBtn = document.getElementById("placeOrderBtn");
+  const messageEl = document.getElementById("message");
+  const receiptEl = document.getElementById("receipt");
+
+  let cart = [];
+
+  /* Generate Order ID on client (also sent to backend) */
+  function generateOrderId() {
+    const now = new Date();
+    const pad = n => n.toString().padStart(2, "0");
+    const yyyy = now.getFullYear();
+    const mm = pad(now.getMonth() + 1);
+    const dd = pad(now.getDate());
+    const hh = pad(now.getHours());
+    const min = pad(now.getMinutes());
+    const ss = pad(now.getSeconds());
+    return `STARS-${yyyy}${mm}${dd}-${hh}${min}${ss}`;
+  }
+
+  /* Show/hide "Other location" box */
+  locationSelect.addEventListener("change", () => {
+    if (locationSelect.value === "Other") {
+      otherLocationWrapper.style.display = "block";
+    } else {
+      otherLocationWrapper.style.display = "none";
+      otherLocationInput.value = "";
+    }
+  });
+
+  /* Load menu from Google Sheet via Apps Script */
+  async function loadMenu() {
+    menuContainer.innerHTML = "<p style='font-size:0.9rem; color:#777;'>Loading menu...</p>";
+    try {
+      const resp = await fetch(SCRIPT_URL + "?mode=menu");
+      const data = await resp.json();
+      MENU_ITEMS = data.items || [];
+      renderMenu();
+    } catch (err) {
+      console.error(err);
+      menuContainer.innerHTML = "<p style='font-size:0.9rem; color:red;'>Error loading menu. Please refresh.</p>";
+    }
+  }
+
+  function renderMenu() {
+    menuContainer.innerHTML = "";
+    if (!MENU_ITEMS || MENU_ITEMS.length === 0) {
+      menuContainer.innerHTML = "<p style='font-size:0.9rem; color:#777;'>No menu items found.</p>";
+      return;
+    }
+
+    // Group by category
+    const byCategory = {};
+    MENU_ITEMS.forEach(item => {
+      const cat = item.category || "Others";
+      if (!byCategory[cat]) byCategory[cat] = [];
+      byCategory[cat].push(item);
+    });
+
+    const categories = Object.keys(byCategory).sort();
+
+    categories.forEach(cat => {
+      const catDiv = document.createElement("div");
+      catDiv.className = "menu-category";
+
+      const title = document.createElement("h3");
+      title.className = "menu-category-title";
+      title.textContent = cat;
+      catDiv.appendChild(title);
+
+      byCategory[cat].forEach(item => {
+        const card = document.createElement("div");
+        card.className = "menu-item-card";
+
+        const main = document.createElement("div");
+        main.className = "menu-item-main";
+
+        if (item.image) {
+          const img = document.createElement("img");
+          img.className = "menu-item-image";
+          img.src = item.image;
+          img.alt = item.name;
+          main.appendChild(img);
+        }
+
+        const info = document.createElement("div");
+        info.className = "menu-item-info";
+        info.innerHTML = `
+          <div class="menu-item-name">${item.name}</div>
+          <div class="menu-item-price">₦${item.price}</div>
+          ${item.desc ? `<div class="menu-item-desc">${item.desc}</div>` : ""}
+        `;
+
+        main.appendChild(info);
+
+        const button = document.createElement("button");
+        button.className = "btn btn-secondary";
+        button.textContent = "Add";
+        button.addEventListener("click", () => addToCart(item));
+
+        card.appendChild(main);
+        card.appendChild(button);
+        catDiv.appendChild(card);
+      });
+
+      menuContainer.appendChild(catDiv);
+    });
+  }
+
+  function addToCart(item) {
+    const existing = cart.find(i => i.name === item.name);
+    if (existing) {
+      existing.quantity += 1;  // first increment by 1
+    } else {
+      cart.push({ ...item, quantity: 1 });
+    }
+    renderCart();
+  }
+
+  function changeQuantity(name, delta) {
+    const item = cart.find(i => i.name === name);
+    if (!item) return;
+
+    const isRice = String(item.category).toLowerCase() === "rice";
+    let newQty = item.quantity + delta;
+
+    if (isRice) {
+      // Round to nearest 0.5
+      newQty = Math.round(newQty * 2) / 2;
+
+      // Minimum 1 portion; below that removes the item
+      if (newQty < 1) {
+        cart = cart.filter(i => i.name !== name);
+        renderCart();
+        return;
+      }
+    } else {
+      // Non-rice: integer steps
+      newQty = Math.round(newQty);
+      if (newQty <= 0) {
+        cart = cart.filter(i => i.name !== name);
+        renderCart();
+        return;
+      }
+    }
+
+    item.quantity = newQty;
+    renderCart();
+  }
+
+  function renderCart() {
+    cartContainer.innerHTML = "";
+    if (cart.length === 0) {
+      cartContainer.innerHTML = "<p style='font-size:0.9rem; color:#777;'>No items in cart yet.</p>";
+      totalAmountSpan.textContent = "0";
+      cartCountLabel.textContent = "0 item";
+      return;
+    }
+
+    let total = 0;
+    cart.forEach(item => {
+      total += item.price * item.quantity;
+      const row = document.createElement("div");
+      row.className = "cart-item";
+
+      const left = document.createElement("div");
+      left.innerHTML = `
+        <div class="cart-item-name">${item.name}</div>
+        <div style="font-size:0.8rem; color:#777;">₦${item.price} each</div>
+      `;
+
+      const right = document.createElement("div");
+      right.className = "cart-qty";
+      right.innerHTML = `
+        <button class="qty-btn">−</button>
+        <span>${item.quantity}</span>
+        <button class="qty-btn">+</button>
+      `;
+
+      const isRice = String(item.category).toLowerCase() === "rice";
+      const step = isRice ? 0.5 : 1;
+
+      const [minusBtn, , plusBtn] = right.querySelectorAll("button, span");
+      minusBtn.addEventListener("click", () => changeQuantity(item.name, -step));
+      plusBtn.addEventListener("click", () => changeQuantity(item.name, step));
+
+      row.appendChild(left);
+      row.appendChild(right);
+      cartContainer.appendChild(row);
+    });
+
+    totalAmountSpan.textContent = total;
+    cartCountLabel.textContent = `${cart.length} item${cart.length > 1 ? "s" : ""}`;
+  }
+
+  function buildReceipt(orderId, customerLocation, customerName, phone, notes, items, total) {
+    let itemsHtml = items.map(i =>
+      `<li>${i.name} x ${i.quantity} (₦${i.price})</li>`
+    ).join("");
+
+    if (!itemsHtml) {
+      itemsHtml = "<li>No items</li>";
+    }
+
+    receiptEl.innerHTML = `
+      <div class="receipt-title">Order received – ID: ${orderId}</div>
+      <div><strong>Name:</strong> ${customerName}</div>
+      <div><strong>Phone:</strong> ${phone}</div>
+      <div><strong>Location:</strong> ${customerLocation}</div>
+      <div style="margin-top:4px;"><strong>Items:</strong></div>
+      <ul class="receipt-items">
+        ${itemsHtml}
+      </ul>
+      <div><strong>Total:</strong> ₦${total}</div>
+      ${notes ? `<div style="margin-top:4px;"><strong>Notes:</strong> ${notes}</div>` : ""}
+      <div style="margin-top:6px; font-size:0.75rem; color:#666;">
+        Please screenshot this page as your proof of order.
+      </div>
+    `;
+    receiptEl.style.display = "block";
+  }
+
+  async function placeOrder() {
+    messageEl.style.color = "red";
+    messageEl.textContent = "";
+    receiptEl.style.display = "none";
+    receiptEl.innerHTML = "";
+
+    const locationValue = locationSelect.value;
+    const otherLocation = otherLocationInput.value.trim();
+    const customerName = customerNameInput.value.trim();
+    const phone = customerPhoneInput.value.trim();
+    const notes = notesInput.value.trim();
+
+    if (!locationValue) {
+      messageEl.textContent = "Please select your area.";
+      return;
+    }
+    if (locationValue === "Other" && !otherLocation) {
+      messageEl.textContent = "Please type your location.";
+      return;
+    }
+    if (cart.length === 0) {
+      messageEl.textContent = "Your cart is empty.";
+      return;
+    }
+    if (!customerName || !phone) {
+      messageEl.textContent = "Please enter your name and phone.";
+      return;
+    }
+
+    let customerLocation = locationValue;
+    if (locationValue === "Other") {
+      customerLocation = otherLocation;
+    }
+
+    const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const orderId = generateOrderId();
+
+    const payload = {
+      orderId: orderId,
+      location: customerLocation,
+      customerName: customerName,
+      phone: phone,
+      notes: notes,
+      items: cart.map(item => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price
+      })),
+      total: total
+    };
+
+    try {
+      placeOrderBtn.disabled = true;
+      messageEl.style.color = "#444";
+      messageEl.textContent = "Sending order...";
+
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      // Build on-screen receipt from the data we already have
+      buildReceipt(orderId, customerLocation, customerName, phone, notes, cart, total);
+
+      messageEl.style.color = "green";
+      messageEl.textContent = "Order placed! We’ve received it.";
+
+      // Clear inputs/cart AFTER building receipt
+      cart = [];
+      renderCart();
+      customerNameInput.value = "";
+      customerPhoneInput.value = "";
+      notesInput.value = "";
+      locationSelect.value = "";
+      otherLocationWrapper.style.display = "none";
+      otherLocationInput.value = "";
+
+    } catch (err) {
+      console.error(err);
+      messageEl.style.color = "red";
+      messageEl.textContent = "Error sending order. Please try again.";
+    } finally {
+      placeOrderBtn.disabled = false;
+    }
+  }
+
+  placeOrderBtn.addEventListener("click", placeOrder);
+
+  // Initial load
+  loadMenu();
+  renderCart();
+</script>
+
+</body>
+</html>
