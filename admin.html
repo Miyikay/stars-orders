@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Stars Orders – Admin</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
       --primary: #ff5a1f;
-      --primary-soft: #ffe6d5;
-      --bg: #f5f5f8;
+      --primary-dark: #e04b13;
+      --bg: #f7f7f7;
       --card-bg: #ffffff;
       --border: #e0e0e0;
-      --text-main: #222;
-      --text-muted: #666;
-      --badge-received: #ffe6d5;
-      --badge-preparing: #fff3cd;
-      --badge-completed: #d1f7d6;
-      --badge-cancelled: #f8d7da;
+      --text-main: #222222;
+      --text-muted: #666666;
+      --badge-green-bg: #e6f6ea;
+      --badge-green-text: #1b7f3b;
+      --badge-orange-bg: #ffe6da;
+      --badge-orange-text: #c75018;
+      --badge-grey-bg: #f0f0f0;
+      --badge-grey-text: #555555;
     }
 
     * {
@@ -26,7 +28,8 @@
     body {
       margin: 0;
       padding: 16px;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
       background: var(--bg);
       color: var(--text-main);
     }
@@ -34,17 +37,27 @@
     h1 {
       margin: 0 0 4px 0;
       font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .brand-label {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary);
+      font-size: 0.8rem;
     }
 
     .subtitle {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: var(--text-muted);
+      margin: 0;
     }
 
     .top-bar {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: baseline;
       flex-wrap: wrap;
       gap: 8px;
       margin-bottom: 12px;
@@ -54,10 +67,10 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 5px 10px;
+      padding: 6px 10px;
       border-radius: 999px;
-      background: var(--primary-soft);
-      color: var(--primary);
+      background: #ffe6da;
+      color: var(--primary-dark);
       font-size: 0.8rem;
       font-weight: 600;
     }
@@ -69,17 +82,20 @@
     .controls-row {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 8px;
       margin-bottom: 12px;
-      flex-wrap: wrap;
+      font-size: 0.85rem;
+      color: var(--text-muted);
     }
 
-    select, input {
-      padding: 6px 8px;
-      border-radius: 6px;
+    select {
+      padding: 6px 10px;
+      border-radius: 8px;
       border: 1px solid var(--border);
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-family: inherit;
+      background: #ffffff;
     }
 
     button {
@@ -87,64 +103,98 @@
     }
 
     .btn {
-      border: none;
       border-radius: 999px;
-      padding: 6px 14px;
+      border: none;
+      padding: 7px 14px;
       font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
       background: var(--primary);
-      color: #fff;
+      color: #ffffff;
     }
 
-    .btn-secondary {
-      background: #f1f1f1;
+    .btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-small {
+      padding: 4px 10px;
+      font-size: 0.8rem;
+    }
+
+    .btn-outline {
+      background: #ffffff;
+      border: 1px solid var(--border);
       color: var(--text-main);
     }
 
-    .meta {
+    .btn-outline:hover {
+      background: #f2f2f2;
+    }
+
+    .info-text {
       font-size: 0.8rem;
       color: var(--text-muted);
     }
 
-    .date-section {
+    .content-card {
       background: var(--card-bg);
-      border-radius: 14px;
+      border-radius: 16px;
       border: 1px solid var(--border);
-      margin-bottom: 14px;
+      padding: 12px;
+    }
+
+    .message {
+      font-size: 0.85rem;
+      margin-top: 6px;
+      min-height: 18px;
+    }
+
+    .message.error {
+      color: #b22d2d;
+    }
+
+    .message.success {
+      color: #1b7f3b;
+    }
+
+    .day-block {
+      margin-top: 10px;
+      border-radius: 12px;
+      border: 1px solid #eee;
+      background: #fafafa;
       overflow: hidden;
     }
 
-    .date-header {
+    .day-header {
       padding: 8px 12px;
-      border-bottom: 1px solid var(--border);
       display: flex;
-      align-items: baseline;
       justify-content: space-between;
-      gap: 8px;
-      background: #fafafa;
-    }
-
-    .date-title {
+      align-items: center;
+      background: #f0f0f0;
+      font-size: 0.9rem;
       font-weight: 600;
-      font-size: 0.95rem;
     }
 
-    .date-meta {
-      font-size: 0.8rem;
+    .day-header span {
       color: var(--text-muted);
+      font-weight: 400;
+      font-size: 0.8rem;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.8rem;
+      background: #ffffff;
     }
 
-    th, td {
+    thead {
+      background: #fafafa;
+    }
+
+    th,
+    td {
+      font-size: 0.8rem;
       padding: 6px 8px;
       border-bottom: 1px solid #f0f0f0;
       vertical-align: top;
@@ -152,14 +202,39 @@
     }
 
     th {
-      background: #fff;
-      position: sticky;
-      top: 0;
-      z-index: 1;
+      color: var(--text-muted);
+      font-weight: 600;
+      white-space: nowrap;
     }
 
-    tr:last-child td {
-      border-bottom: none;
+    tbody tr:nth-child(even) {
+      background: #fcfcfc;
+    }
+
+    .col-orderid {
+      min-width: 120px;
+      font-weight: 600;
+    }
+
+    .col-time {
+      white-space: nowrap;
+      min-width: 130px;
+    }
+
+    .col-location {
+      min-width: 120px;
+    }
+
+    .col-customer {
+      min-width: 130px;
+    }
+
+    .col-items {
+      min-width: 200px;
+    }
+
+    .col-total {
+      white-space: nowrap;
     }
 
     .badge {
@@ -168,265 +243,475 @@
       border-radius: 999px;
       font-size: 0.75rem;
       font-weight: 600;
+      align-items: center;
     }
 
-    .badge-received { background: var(--badge-received); }
-    .badge-preparing { background: var(--badge-preparing); }
-    .badge-completed { background: var(--badge-completed); }
-    .badge-cancelled { background: var(--badge-cancelled); }
+    .badge-green {
+      background: var(--badge-green-bg);
+      color: var(--badge-green-text);
+    }
+
+    .badge-orange {
+      background: var(--badge-orange-bg);
+      color: var(--badge-orange-text);
+    }
+
+    .badge-grey {
+      background: var(--badge-grey-bg);
+      color: var(--badge-grey-text);
+    }
 
     .status-select {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
       font-size: 0.75rem;
+      background: #ffffff;
     }
 
-    .btn-save {
-      padding: 4px 10px;
-      font-size: 0.75rem;
+    .cell-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
     }
 
-    .orders-wrapper {
-      max-height: calc(100vh - 140px);
-      overflow: auto;
-      padding-right: 4px;
+    /* PIN overlay */
+    .pin-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 20;
     }
 
-    @media (max-width: 900px) {
-      th:nth-child(4),
-      td:nth-child(4) {
-        display: none; /* hide phone on small screens */
+    .pin-dialog {
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 14px;
+      width: 320px;
+      max-width: 90%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .pin-dialog h2 {
+      margin: 0 0 8px 0;
+      font-size: 1.1rem;
+    }
+
+    .pin-dialog p {
+      margin: 0 0 8px 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .pin-input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 1rem;
+      letter-spacing: 0.3em;
+      text-align: center;
+    }
+
+    .pin-error {
+      margin-top: 6px;
+      font-size: 0.8rem;
+      color: #b22d2d;
+      min-height: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .top-bar {
+        align-items: flex-start;
+      }
+
+      .day-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      th,
+      td {
+        font-size: 0.78rem;
       }
     }
   </style>
 </head>
 <body>
-
-<div class="top-bar">
-  <div>
-    <div style="font-size:0.8rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--primary); font-weight:700;">
-      Stars Orders
+  <div class="top-bar">
+    <div>
+      <div class="brand-label">STARS ORDERS</div>
+      <h1>Admin</h1>
+      <p class="subtitle">
+        View and manage all incoming orders from your Google Sheet.
+      </p>
     </div>
-    <h1>Admin</h1>
-    <div class="subtitle">View and manage all incoming orders from your Google Sheet.</div>
+    <div class="pill-live">
+      <span>●</span>
+      <span>Live dashboard</span>
+    </div>
   </div>
-  <div class="pill-live">
-    <span>●</span>
-    <span>Live dashboard</span>
+
+  <div class="controls-row">
+    <div>
+      <label for="statusFilter">Filter by status:</label>
+      <select id="statusFilter">
+        <option value="All">All</option>
+        <option value="Received">Received</option>
+        <option value="Preparing">Preparing</option>
+        <option value="Completed">Completed</option>
+        <option value="Cancelled">Cancelled</option>
+      </select>
+    </div>
+    <button id="refreshBtn" class="btn btn-outline">Refresh</button>
+    <span id="lastRefresh" class="info-text"></span>
   </div>
-</div>
 
-<div class="controls-row">
-  <div>
-    <span class="meta">Filter by status:</span>
-    <select id="statusFilter">
-      <option value="All">All</option>
-      <option value="Received">Received</option>
-      <option value="Preparing">Preparing</option>
-      <option value="Completed">Completed</option>
-      <option value="Cancelled">Cancelled</option>
-    </select>
+  <div class="content-card">
+    <div id="ordersContainer"></div>
+    <div id="adminMessage" class="message"></div>
   </div>
-  <button class="btn" id="refreshBtn">Refresh</button>
-  <span id="metaInfo" class="meta"></span>
-</div>
 
-<div class="orders-wrapper" id="ordersWrapper">
-  <!-- date sections injected here -->
-</div>
+  <!-- PIN overlay -->
+  <div id="pinOverlay" class="pin-overlay" style="display: none;">
+    <div class="pin-dialog">
+      <h2>Admin access</h2>
+      <p>Enter your admin PIN to view and update orders.</p>
+      <input
+        id="pinInput"
+        type="password"
+        maxlength="8"
+        class="pin-input"
+        autocomplete="off"
+        inputmode="numeric"
+      />
+      <div class="pin-error" id="pinError"></div>
+      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:10px;">
+        <button id="pinCancelBtn" class="btn btn-outline btn-small">
+          Cancel
+        </button>
+        <button id="pinOkBtn" class="btn btn-small">Continue</button>
+      </div>
+    </div>
+  </div>
 
-<script>
-  // 🔗 CHANGE THIS to your deployed Apps Script URL
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzS4r5yE1x76Na6wpwolo_g96g9SeJ64Lx6LlZyENpiZWuZ_HBnRu1apN75cAmjvjjv9g/exec";
+  <script>
+    // 🔗 Your Apps Script web app URL (same backend used by the order page)
+    const SCRIPT_URL =
+      "https://script.google.com/macros/s/AKfycbzS4r5yE1x76Na6wpwolo_g96g9SeJ64Lx6LlZyENpiZWuZ_HBnRu1apN75cAmjvjjv9g/exec";
 
-  let ADMIN_PIN = localStorage.getItem("stars_admin_pin") || "";
+    const statusFilterEl = document.getElementById("statusFilter");
+    const refreshBtn = document.getElementById("refreshBtn");
+    const lastRefreshEl = document.getElementById("lastRefresh");
+    const ordersContainer = document.getElementById("ordersContainer");
+    const adminMessageEl = document.getElementById("adminMessage");
 
-  if (!ADMIN_PIN) {
-    ADMIN_PIN = prompt("Enter admin PIN:");
-    if (ADMIN_PIN) {
-      localStorage.setItem("stars_admin_pin", ADMIN_PIN);
+    const pinOverlay = document.getElementById("pinOverlay");
+    const pinInput = document.getElementById("pinInput");
+    const pinError = document.getElementById("pinError");
+    const pinCancelBtn = document.getElementById("pinCancelBtn");
+    const pinOkBtn = document.getElementById("pinOkBtn");
+
+    // We'll keep the PIN only in this tab/session
+    let adminPin = "";
+
+    function showPinOverlay() {
+      pinOverlay.style.display = "flex";
+      pinError.textContent = "";
+      pinInput.value = "";
+      setTimeout(() => pinInput.focus(), 50);
     }
-  }
 
-  const statusFilterEl = document.getElementById("statusFilter");
-  const refreshBtn = document.getElementById("refreshBtn");
-  const metaInfoEl = document.getElementById("metaInfo");
-  const ordersWrapper = document.getElementById("ordersWrapper");
+    function hidePinOverlay() {
+      pinOverlay.style.display = "none";
+    }
 
-  refreshBtn.addEventListener("click", loadOrders);
-  statusFilterEl.addEventListener("change", loadOrders);
+    async function handlePinSubmit() {
+      const entered = pinInput.value.trim();
+      if (!entered) {
+        pinError.textContent = "PIN is required.";
+        return;
+      }
+      adminPin = entered;
+      hidePinOverlay();
+      await loadOrders();
+    }
 
-  function getStatusBadgeClass(status) {
-    const s = String(status || "").toLowerCase();
-    if (s === "preparing") return "badge-preparing";
-    if (s === "completed") return "badge-completed";
-    if (s === "cancelled") return "badge-cancelled";
-    return "badge-received";
-  }
-
-  function getStatusOptionsHtml(current) {
-    const options = ["Received", "Preparing", "Completed", "Cancelled"];
-    return options.map(s =>
-      `<option value="${s}" ${s === current ? "selected" : ""}>${s}</option>`
-    ).join("");
-  }
-
-  function groupByDate(orders) {
-    const map = new Map();
-    orders.forEach(o => {
-      const parts = String(o.time || "").split(" ");
-      const dateOnly = parts[0] || "Unknown date";
-      if (!map.has(dateOnly)) map.set(dateOnly, []);
-      map.get(dateOnly).push(o);
+    pinOkBtn.addEventListener("click", handlePinSubmit);
+    pinCancelBtn.addEventListener("click", () => {
+      pinError.textContent = "";
+      pinInput.value = "";
     });
-    return map;
-  }
+    pinInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        handlePinSubmit();
+      }
+    });
 
-  function renderOrders(orders) {
-    ordersWrapper.innerHTML = "";
-    if (!orders || orders.length === 0) {
-      ordersWrapper.innerHTML = "<p class='meta'>No orders found.</p>";
-      return;
+    refreshBtn.addEventListener("click", () => {
+      if (!adminPin) {
+        showPinOverlay();
+      } else {
+        loadOrders();
+      }
+    });
+
+    statusFilterEl.addEventListener("change", () => {
+      if (!adminPin) {
+        showPinOverlay();
+      } else {
+        loadOrders();
+      }
+    });
+
+    function setAdminMessage(text, type) {
+      adminMessageEl.textContent = text || "";
+      adminMessageEl.className = "message";
+      if (type === "error") adminMessageEl.classList.add("error");
+      if (type === "success") adminMessageEl.classList.add("success");
     }
 
-    const grouped = groupByDate(orders);
+    function formatDateOnly(dateStr) {
+      // dateStr from backend: "MM/dd/yyyy HH:mm:ss"
+      if (!dateStr) return "";
+      const parts = dateStr.split(" ");
+      if (!parts[0]) return dateStr;
+      const [mm, dd, yyyy] = parts[0].split("/");
+      const dateObj = new Date(yyyy, Number(mm) - 1, dd);
+      const options = { weekday: "short", month: "short", day: "numeric", year: "numeric" };
+      return dateObj.toLocaleDateString(undefined, options);
+    }
 
-    [...grouped.entries()].sort((a, b) => {
-      // newest date first
-      return new Date(b[0]) - new Date(a[0]);
-    }).forEach(([date, list]) => {
-      const totalForDay = list.reduce((sum, o) => sum + (o.total || 0), 0);
+    function getDateKey(dateStr) {
+      // "MM/dd/yyyy HH:mm:ss" -> "yyyy-mm-dd"
+      if (!dateStr) return "unknown";
+      const [mmddyyyy] = dateStr.split(" ");
+      const [mm, dd, yyyy] = mmddyyyy.split("/");
+      return `${yyyy}-${mm}-${dd}`;
+    }
 
-      const section = document.createElement("section");
-      section.className = "date-section";
+    function badgeClassForStatus(status) {
+      const s = String(status || "").toLowerCase();
+      if (s === "completed") return "badge badge-green";
+      if (s === "preparing") return "badge badge-orange";
+      if (s === "cancelled") return "badge badge-grey";
+      return "badge badge-grey";
+    }
 
-      const header = document.createElement("div");
-      header.className = "date-header";
-      header.innerHTML = `
-        <div class="date-title">${date}</div>
-        <div class="date-meta">
-          ${list.length} order${list.length > 1 ? "s" : ""} • Total ₦${totalForDay}
-        </div>
-      `;
-      section.appendChild(header);
+    function statusLabel(status) {
+      return status || "Received";
+    }
 
-      const table = document.createElement("table");
-      table.innerHTML = `
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>Time</th>
-            <th>Location</th>
-            <th>Customer / Phone</th>
-            <th>Items</th>
-            <th>Total (₦)</th>
-            <th>Notes</th>
-            <th>Status</th>
-            <th>Update</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${list.map(o => `
-            <tr data-row="${o.rowIndex}">
-              <td>${o.orderId || ""}</td>
-              <td>${o.time || ""}</td>
-              <td>${o.location || ""}</td>
-              <td>
-                <strong>${o.customerName || ""}</strong><br>
-                <span class="meta">${o.phone || ""}</span>
-              </td>
-              <td>${o.items || ""}</td>
-              <td>${o.total || 0}</td>
+    function buildOrdersTable(orders) {
+      if (!orders || orders.length === 0) {
+        ordersContainer.innerHTML =
+          "<p style='font-size:0.9rem; color:#777;'>No orders found for this filter.</p>";
+        return;
+      }
+
+      // Group orders by date
+      const byDate = {};
+      orders.forEach((o) => {
+        const key = getDateKey(o.time);
+        if (!byDate[key]) byDate[key] = [];
+        byDate[key].push(o);
+      });
+
+      // Sort date keys descending (newest first)
+      const dateKeys = Object.keys(byDate).sort((a, b) =>
+        a < b ? 1 : a > b ? -1 : 0
+      );
+
+      let html = "";
+
+      dateKeys.forEach((key) => {
+        const group = byDate[key];
+        if (!group || group.length === 0) return;
+        const readableDate = formatDateOnly(group[0].time);
+        html += `
+          <div class="day-block">
+            <div class="day-header">
+              <div>${readableDate}</div>
+              <span>${group.length} order${group.length > 1 ? "s" : ""}</span>
+            </div>
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Time</th>
+                    <th>Location</th>
+                    <th>Customer</th>
+                    <th>Phone</th>
+                    <th>Items</th>
+                    <th>Total (₦)</th>
+                    <th>Notes</th>
+                    <th>Status</th>
+                    <th>Update</th>
+                  </tr>
+                </thead>
+                <tbody>
+        `;
+
+        group.forEach((o) => {
+          html += `
+            <tr data-row-index="${o.rowIndex}">
+              <td class="col-orderid">${o.orderId || ""}</td>
+              <td class="col-time">${o.time || ""}</td>
+              <td class="col-location">${o.location || ""}</td>
+              <td class="col-customer">${o.customerName || ""}</td>
+              <td>${o.phone || ""}</td>
+              <td class="col-items">${o.items || ""}</td>
+              <td class="col-total">${o.total || 0}</td>
               <td>${o.notes || ""}</td>
               <td>
-                <span class="badge ${getStatusBadgeClass(o.status)}">
-                  ${o.status || "Received"}
-                </span>
+                <span class="${badgeClassForStatus(
+                  o.status
+                )}">${statusLabel(o.status)}</span>
               </td>
-              <td>
+              <td class="cell-actions">
                 <select class="status-select">
-                  ${getStatusOptionsHtml(o.status)}
+                  <option value="Received" ${
+                    o.status === "Received" ? "selected" : ""
+                  }>Received</option>
+                  <option value="Preparing" ${
+                    o.status === "Preparing" ? "selected" : ""
+                  }>Preparing</option>
+                  <option value="Completed" ${
+                    o.status === "Completed" ? "selected" : ""
+                  }>Completed</option>
+                  <option value="Cancelled" ${
+                    o.status === "Cancelled" ? "selected" : ""
+                  }>Cancelled</option>
                 </select>
-                <button class="btn btn-save">Save</button>
+                <button class="btn btn-small">
+                  Save
+                </button>
               </td>
             </tr>
-          `).join("")}
-        </tbody>
-      `;
-      section.appendChild(table);
-      ordersWrapper.appendChild(section);
-    });
+          `;
+        });
 
-    // wire up Save buttons
-    ordersWrapper.querySelectorAll(".btn-save").forEach(btn => {
-      btn.addEventListener("click", async () => {
-        const row = btn.closest("tr");
-        const rowIndex = row.getAttribute("data-row");
-        const select = row.querySelector("select.status-select");
-        const newStatus = select.value;
-        await updateStatus(rowIndex, newStatus);
-      });
-    });
-  }
-
-  async function loadOrders() {
-    if (!ADMIN_PIN) {
-      alert("No admin PIN set.");
-      return;
-    }
-    const filter = statusFilterEl.value || "All";
-    metaInfoEl.textContent = "Loading orders…";
-
-    try {
-      const url = `${SCRIPT_URL}?mode=orders&pin=${encodeURIComponent(
-        ADMIN_PIN
-      )}&status=${encodeURIComponent(filter)}`;
-
-      const resp = await fetch(url);
-      const data = await resp.json();
-
-      if (!data.success) {
-        throw new Error(data.error || "Unknown error");
-      }
-
-      renderOrders(data.orders || []);
-      const when = new Date(data.lastRefresh || Date.now());
-      metaInfoEl.textContent =
-        `Last refresh: ${when.toLocaleString()} • Loaded ${data.orders.length} orders.`;
-    } catch (err) {
-      console.error(err);
-      metaInfoEl.textContent = "Error loading orders. Check PIN or script URL.";
-    }
-  }
-
-  async function updateStatus(rowIndex, status) {
-    try {
-      const payload = {
-        action: "updateStatus",
-        rowIndex: Number(rowIndex),
-        status: status,
-        pin: ADMIN_PIN
-      };
-
-      const resp = await fetch(SCRIPT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        html += `
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
       });
 
-      const data = await resp.json();
-      if (!data.success) {
-        throw new Error(data.error || "Unknown error");
+      ordersContainer.innerHTML = html;
+
+      // Attach listeners for each row's Save button
+      const rows = ordersContainer.querySelectorAll("tr[data-row-index]");
+      rows.forEach((row) => {
+        const rowIndex = row.getAttribute("data-row-index");
+        const select = row.querySelector(".status-select");
+        const saveBtn = row.querySelector("button");
+
+        saveBtn.addEventListener("click", async () => {
+          const newStatus = select.value;
+          await updateStatus(rowIndex, newStatus, row);
+        });
+      });
+    }
+
+    async function loadOrders() {
+      if (!adminPin) {
+        showPinOverlay();
+        return;
       }
 
-      await loadOrders();
-    } catch (err) {
-      console.error(err);
-      alert("Error updating status. Check PIN / script logs.");
+      try {
+        setAdminMessage("Loading orders…");
+        const status = statusFilterEl.value || "All";
+        const url =
+          SCRIPT_URL +
+          "?mode=orders&pin=" +
+          encodeURIComponent(adminPin) +
+          "&status=" +
+          encodeURIComponent(status);
+
+        const resp = await fetch(url);
+        const data = await resp.json();
+
+        if (!data.success) {
+          if (data.error === "Unauthorized") {
+            adminPin = "";
+            showPinOverlay();
+            setAdminMessage("PIN incorrect. Please try again.", "error");
+            return;
+          }
+          setAdminMessage("Error loading orders: " + (data.error || ""), "error");
+          return;
+        }
+
+        buildOrdersTable(data.orders || []);
+        const ts = data.lastRefresh || new Date().toISOString();
+        lastRefreshEl.textContent = "Last refresh: " + ts;
+        setAdminMessage("");
+      } catch (err) {
+        console.error(err);
+        setAdminMessage("Error loading orders. Please try again.", "error");
+      }
     }
-  }
 
-  // initial load
-  loadOrders();
-</script>
+    async function updateStatus(rowIndex, newStatus, rowEl) {
+      if (!adminPin) {
+        showPinOverlay();
+        return;
+      }
 
+      try {
+        setAdminMessage("Saving status…");
+        const payload = {
+          action: "updateStatus",
+          rowIndex: Number(rowIndex),
+          status: newStatus,
+          pin: adminPin,
+        };
+
+        const resp = await fetch(SCRIPT_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await resp.json();
+        if (!data.success) {
+          if (data.error === "Unauthorized") {
+            adminPin = "";
+            showPinOverlay();
+            setAdminMessage("PIN incorrect. Please try again.", "error");
+            return;
+          }
+          setAdminMessage("Error updating status: " + (data.error || ""), "error");
+          return;
+        }
+
+        // Update the badge in the row
+        const badge = rowEl.querySelector(".badge");
+        badge.textContent = statusLabel(newStatus);
+        badge.className = badgeClassForStatus(newStatus);
+
+        setAdminMessage("Status updated.", "success");
+      } catch (err) {
+        console.error(err);
+        setAdminMessage("Error updating status. Please try again.", "error");
+      }
+    }
+
+    // On first load, ask for PIN
+    window.addEventListener("load", () => {
+      showPinOverlay();
+    });
+  </script>
 </body>
 </html>
