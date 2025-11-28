@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stars – Weekly Menu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --primary: #ff5a1f;
+      --primary-dark: #e04b13;
+      --bg: #f7f7f7;
+      --card-bg: #ffffff;
+      --border: #e0e0e0;
+      --text-main: #222222;
+      --text-muted: #666666;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+    }
+
+    /* TOP BAR */
+    .top-shell {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .top-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .logo-small {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .brand-block {
+      min-width: 0;
+    }
+
+    .brand-label {
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primary);
+      font-size: 0.8rem;
+    }
+
+    h1 {
+      margin: 2px 0 4px 0;
+      font-weight: 600;
+      font-size: 1.5rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .top-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      min-width: 220px;
+    }
+
+    .pill-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #ffe6da;
+      color: var(--primary-dark);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .pill-link span:first-child {
+      font-size: 0.8rem;
+    }
+
+    /* WEEK STRIP */
+    .week-strip {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+    }
+
+    .day-card {
+      min-width: 260px;
+      max-width: 260px;
+      background: var(--card-bg);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+      padding: 10px 12px;
+      flex-shrink: 0;
+    }
+
+    .day-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .day-name {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .day-pill {
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #fff3ec;
+      color: var(--primary-dark);
+      border: 1px solid #ffd2b3;
+    }
+
+    .item-row {
+      padding: 6px 0;
+      border-bottom: 1px solid #f1f1f1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .item-main {
+      font-size: 0.9rem;
+    }
+
+    .item-name {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .item-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .item-price {
+      font-size: 0.9rem;
+      color: var(--primary-dark);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .no-items {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      padding: 4px 0 2px;
+    }
+
+    .hint-row {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .top-right {
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-shell">
+  <div class="top-left">
+    <img src="stars-logo.png" class="logo-small" alt="Stars n Stripes Foods" />
+    <div class="brand-block">
+      <div class="brand-label">STARS ORDERS</div>
+      <h1>Weekly menu</h1>
+      <p class="subtitle">Slide sideways to see what’s available each day.</p>
+    </div>
+  </div>
+  <div class="top-right">
+    <a href="order.html" class="pill-link">
+      <span>←</span><span>Back to today’s ordering</span>
+    </a>
+  </div>
+</div>
+
+<div id="weekStrip" class="week-strip">
+  <!-- Filled by JS -->
+</div>
+
+<div class="hint-row">
+  Pre-orders: you can always place today’s order on the main page and add a note
+  like “for tomorrow (Tuesday) special”.
+</div>
+
+<script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzS4r5yE1x76Na6wpwolo_g96g9SeJ64Lx6LlZyENpiZWuZ_HBnRu1apN75cAmjvjjv9g/exec"; // same as order.html
+
+  const weekStripEl = document.getElementById("weekStrip");
+
+  async function loadWeeklyMenu() {
+    weekStripEl.innerHTML =
+      "<p style='font-size:0.9rem; color:#777;'>Loading weekly menu...</p>";
+
+    try {
+      const resp = await fetch(SCRIPT_URL + "?mode=weeklyMenu");
+      const data = await resp.json();
+
+      if (!data || !data.days || Object.keys(data.days).length === 0) {
+        weekStripEl.innerHTML =
+          "<p style='font-size:0.9rem; color:#777;'>No weekly menu found yet.</p>";
+        return;
+      }
+
+      renderWeeklyMenu(data.days);
+    } catch (err) {
+      console.error(err);
+      weekStripEl.innerHTML =
+        "<p style='font-size:0.9rem; color:red;'>Error loading weekly menu. Please refresh.</p>";
+    }
+  }
+
+  function renderWeeklyMenu(daysMap) {
+    weekStripEl.innerHTML = "";
+
+    // Order the days in a nice sequence if they are standard names
+    const orderNames = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+    const keys = Object.keys(daysMap);
+
+    const sortedKeys = keys.slice().sort((a,b) => {
+      const ia = orderNames.indexOf(a);
+      const ib = orderNames.indexOf(b);
+      if (ia === -1 && ib === -1) return a.localeCompare(b);
+      if (ia === -1) return 1;
+      if (ib === -1) return -1;
+      return ia - ib;
+    });
+
+    sortedKeys.forEach(day => {
+      const items = daysMap[day] || [];
+
+      const card = document.createElement("div");
+      card.className = "day-card";
+
+      const header = document.createElement("div");
+      header.className = "day-header";
+
+      const nameDiv = document.createElement("div");
+      nameDiv.className = "day-name";
+      nameDiv.textContent = day;
+
+      const pill = document.createElement("div");
+      pill.className = "day-pill";
+      pill.textContent = items.length ? "Available" : "No items";
+
+      header.appendChild(nameDiv);
+      header.appendChild(pill);
+      card.appendChild(header);
+
+      if (!items.length) {
+        const p = document.createElement("div");
+        p.className = "no-items";
+        p.textContent = "No menu added for this day yet.";
+        card.appendChild(p);
+      } else {
+        items.forEach(it => {
+          const row = document.createElement("div");
+          row.className = "item-row";
+
+          const main = document.createElement("div");
+          main.className = "item-main";
+          main.innerHTML = `
+            <div class="item-name">${it.name}</div>
+            ${it.desc ? `<div class="item-desc">${it.desc}</div>` : ""}
+            ${it.category ? `<div class="item-desc"><strong>${it.category}</strong></div>` : ""}
+          `;
+
+          const priceDiv = document.createElement("div");
+          priceDiv.className = "item-price";
+          priceDiv.textContent = "₦" + (it.price || 0);
+
+          row.appendChild(main);
+          row.appendChild(priceDiv);
+          card.appendChild(row);
+        });
+      }
+
+      weekStripEl.appendChild(card);
+    });
+  }
+
+  loadWeeklyMenu();
+</script>
+
+</body>
+</html>
