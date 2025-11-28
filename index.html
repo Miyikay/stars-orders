@@ -25,53 +25,114 @@
       color: var(--text-main);
     }
 
-    /* LOGO */
-    .logo-bar {
+    /* TOP BAR */
+    .top-shell {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .top-left {
       display: flex;
       align-items: center;
-      justify-content: center;
-      margin-bottom: 12px;
+      gap: 10px;
+      min-width: 0;
     }
 
-    .logo {
-      max-width: 230px;
-      width: 100%;
-      border-radius: 10px;
+    .logo-small {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
     }
 
-    h1, h2, h3 {
-      margin: 0 0 8px 0;
-      font-weight: 600;
+    .brand-block {
+      min-width: 0;
+    }
+
+    .brand-label {
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primary);
+      font-size: 0.8rem;
     }
 
     h1 {
-      font-size: 1.6rem;
-      margin-bottom: 4px;
+      margin: 2px 0 4px 0;
+      font-weight: 600;
+      font-size: 1.5rem;
     }
 
     .subtitle {
       font-size: 0.9rem;
       color: var(--text-muted);
-      margin-bottom: 16px;
+      margin: 0;
     }
 
-    .top-bar {
-      margin-bottom: 12px;
+    .top-right {
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
+      flex-direction: column;
+      align-items: flex-end;
       gap: 8px;
-      justify-content: space-between;
+      min-width: 260px;
     }
 
-    .brand {
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--primary);
-      font-size: 0.85rem;
+    .pill-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #ffe6da;
+      color: var(--primary-dark);
+      font-size: 0.8rem;
+      font-weight: 600;
     }
 
+    .pill-live span:first-child {
+      font-size: 0.7rem;
+    }
+
+    .special-card {
+      background: var(--card-bg);
+      border: 1px dashed #ffd2b3;
+      border-radius: 14px;
+      padding: 8px 12px;
+      max-width: 340px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.02);
+    }
+
+    .special-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+      margin-bottom: 4px;
+    }
+
+    .special-item {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .special-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .special-cta {
+      margin-top: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    /* LOCATION + INPUTS */
     label {
       font-size: 0.85rem;
       color: var(--text-muted);
@@ -93,15 +154,10 @@
       min-height: 60px;
     }
 
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #ffe6da;
-      color: var(--primary-dark);
-      font-size: 0.8rem;
+    .small-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 2px;
     }
 
     .container {
@@ -196,7 +252,7 @@
       border-bottom: 1px solid #f0f0f0;
       padding: 6px 0;
       display: flex;
-      justify-content: space_between;
+      justify-content: space-between;
       align-items: center;
       font-size: 0.9rem;
     }
@@ -240,12 +296,6 @@
       margin-top: 8px;
       font-size: 0.85rem;
       min-height: 18px;
-    }
-
-    .small-hint {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 2px;
     }
 
     /* Categories + images */
@@ -300,25 +350,38 @@
         border-radius: 12px;
         padding: 10px;
       }
+
+      .top-right {
+        align-items: stretch;
+      }
+
+      .special-card {
+        max-width: 100%;
+      }
     }
   </style>
 </head>
 <body>
 
-<!-- LOGO -->
-<div class="logo-bar">
-  <img src="stars-logo.png" class="logo" alt="Stars n Stripes Foods">
-</div>
-
-<div class="top-bar">
-  <div>
-    <div class="brand">STARS ORDERS</div>
-    <h1>Place your order</h1>
-    <div class="subtitle">Choose your area, pick items, and we’ll take it from there.</div>
+<!-- TOP BAR -->
+<div class="top-shell">
+  <div class="top-left">
+    <img src="stars-logo.png" class="logo-small" alt="Stars n Stripes Foods">
+    <div class="brand-block">
+      <div class="brand-label">STARS ORDERS</div>
+      <h1>Place your order</h1>
+      <p class="subtitle">Choose your area, pick items, and we’ll take it from there.</p>
+    </div>
   </div>
-  <div class="pill">
-    <span>●</span>
-    <span>Live ordering</span>
+
+  <div class="top-right">
+    <div class="pill-live">
+      <span>●</span>
+      <span>Live ordering</span>
+    </div>
+    <div id="tomorrowSpecial" class="special-card">
+      <!-- filled by JS -->
+    </div>
   </div>
 </div>
 
@@ -335,7 +398,7 @@
   </select>
   <div id="otherLocationWrapper" style="margin-top:8px; display:none;">
     <input id="otherLocation" type="text" placeholder="Enter your location">
-    <div class="small-hint">Example: Chevron, Lekki; Abule-Egba; etc.</div>
+    <div class="small-hint">Example: GTB Abule-Egba, Chevron Lekki, etc.</div>
   </div>
 </div>
 
@@ -388,7 +451,7 @@
 </div>
 
 <script>
-  /* 1️⃣ GOOGLE APPS SCRIPT URL – SAME AS YOUR OTHER PAGES */
+  /* 1️⃣ GOOGLE APPS SCRIPT URL – SAME AS YOUR BACKEND */
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzS4r5yE1x76Na6wpwolo_g96g9SeJ64Lx6LlZyENpiZWuZ_HBnRu1apN75cAmjvjjv9g/exec";
 
   /* 2️⃣ MENU ITEMS – LOADED FROM SHEET */
@@ -398,7 +461,6 @@
   const otherLocationWrapper = document.getElementById("otherLocationWrapper");
   const otherLocationInput = document.getElementById("otherLocation");
   const menuContainer = document.getElementById("menuContainer");
-  const menuHint = document.getElementById("menuHint");
   const cartContainer = document.getElementById("cartContainer");
   const totalAmountSpan = document.getElementById("totalAmount");
   const cartCountLabel = document.getElementById("cartCountLabel");
@@ -408,8 +470,29 @@
   const placeOrderBtn = document.getElementById("placeOrderBtn");
   const messageEl = document.getElementById("message");
   const receiptEl = document.getElementById("receipt");
+  const tomorrowSpecialEl = document.getElementById("tomorrowSpecial");
 
   let cart = [];
+
+  /* Tomorrow’s special (simple placeholder for now) */
+  const TOMORROW_SPECIAL = {
+    title: "Tomorrow's Special",
+    item: "Smoky Jollof Rice + Turkey",
+    price: "₦6,500",
+    note: "Limited plates. Pre-order today to reserve yours.",
+    extra: "Available from 12:00 pm tomorrow."
+  };
+
+  function renderTomorrowSpecial() {
+    if (!tomorrowSpecialEl) return;
+    tomorrowSpecialEl.innerHTML = `
+      <div class="special-title">${TOMORROW_SPECIAL.title}</div>
+      <div class="special-item">${TOMORROW_SPECIAL.item}</div>
+      <div class="special-meta">${TOMORROW_SPECIAL.extra}</div>
+      <div class="special-cta">Pre-order by adding notes before you confirm your order.</div>
+      <div class="special-meta" style="margin-top:4px;">From ${TOMORROW_SPECIAL.price}</div>
+    `;
+  }
 
   /* Generate Order ID on client (also sent to backend) */
   function generateOrderId() {
@@ -439,11 +522,13 @@
     menuContainer.innerHTML = "<p style='font-size:0.9rem; color:#777;'>Loading menu...</p>";
     try {
       const resp = await fetch(SCRIPT_URL + "?mode=menu");
+      console.log("Menu fetch status:", resp.status);
       const data = await resp.json();
+      console.log("Menu data:", data);
       MENU_ITEMS = data.items || [];
       renderMenu();
     } catch (err) {
-      console.error(err);
+      console.error("Error loading menu:", err);
       menuContainer.innerHTML = "<p style='font-size:0.9rem; color:red;'>Error loading menu. Please refresh.</p>";
     }
   }
@@ -516,7 +601,7 @@
   function addToCart(item) {
     const existing = cart.find(i => i.name === item.name);
     if (existing) {
-      existing.quantity += 1;  // first increment by 1
+      existing.quantity += 1;
     } else {
       cart.push({ ...item, quantity: 1 });
     }
@@ -531,17 +616,13 @@
     let newQty = item.quantity + delta;
 
     if (isRice) {
-      // Round to nearest 0.5
       newQty = Math.round(newQty * 2) / 2;
-
-      // Minimum 1 portion; below that removes the item
       if (newQty < 1) {
         cart = cart.filter(i => i.name !== name);
         renderCart();
         return;
       }
     } else {
-      // Non-rice: integer steps
       newQty = Math.round(newQty);
       if (newQty <= 0) {
         cart = cart.filter(i => i.name !== name);
@@ -691,13 +772,11 @@
         body: JSON.stringify(payload)
       });
 
-      // Build on-screen receipt from the data we already have
       buildReceipt(orderId, customerLocation, customerName, phone, notes, cart, total);
 
       messageEl.style.color = "green";
       messageEl.textContent = "Order placed! We’ve received it.";
 
-      // Clear inputs/cart AFTER building receipt
       cart = [];
       renderCart();
       customerNameInput.value = "";
@@ -719,10 +798,10 @@
   placeOrderBtn.addEventListener("click", placeOrder);
 
   // Initial load
+  renderTomorrowSpecial();
   loadMenu();
   renderCart();
 </script>
 
 </body>
 </html>
-
