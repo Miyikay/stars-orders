@@ -26,6 +26,7 @@
     }
 
     /* TOP BAR */
+
     .top-shell {
       display: flex;
       justify-content: space-between;
@@ -98,9 +99,31 @@
       font-size: 0.7rem;
     }
 
+    /* 🔗 Weekly menu link pill */
+    .pill-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #222222;
+      color: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .pill-link span:first-child {
+      font-size: 0.8rem;
+    }
+
+    .pill-link:hover {
+      background: #000000;
+    }
+
     .special-card {
       background: var(--card-bg);
-      border: 1px dashed #ffd2b3;
+      border: 1px dashed var(--primary-soft, #ffd2b3);
       border-radius: 14px;
       padding: 8px 12px;
       max-width: 340px;
@@ -132,7 +155,8 @@
       color: var(--primary-dark);
     }
 
-    /* LOCATION + INPUTS */
+    /* LOCATION + FORM */
+
     label {
       font-size: 0.85rem;
       color: var(--text-muted);
@@ -375,6 +399,11 @@
   </div>
 
   <div class="top-right">
+    <!-- link to weekly menu -->
+    <a href="weekly.html" class="pill-link">
+      <span>📅</span><span>View weekly menu</span>
+    </a>
+
     <div class="pill-live">
       <span>●</span>
       <span>Live ordering</span>
@@ -452,7 +481,7 @@
 
 <script>
   /* 1️⃣ GOOGLE APPS SCRIPT URL – SAME AS YOUR BACKEND */
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzS4r5yE1x76Na6wpwolo_g96g9SeJ64Lx6LlZyENpiZWuZ_HBnRu1apN75cAmjvjjv9g/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzS4r5yE1x76Na6wpwolo_g96g9SeJ64Lx6LlZyENpiZWuZ_HBnRu1apN75cAmjvjjv9g/exec"; // <-- your deployed URL
 
   /* 2️⃣ MENU ITEMS – LOADED FROM SHEET */
   let MENU_ITEMS = [];
@@ -522,13 +551,11 @@
     menuContainer.innerHTML = "<p style='font-size:0.9rem; color:#777;'>Loading menu...</p>";
     try {
       const resp = await fetch(SCRIPT_URL + "?mode=menu");
-      console.log("Menu fetch status:", resp.status);
       const data = await resp.json();
-      console.log("Menu data:", data);
       MENU_ITEMS = data.items || [];
       renderMenu();
     } catch (err) {
-      console.error("Error loading menu:", err);
+      console.error(err);
       menuContainer.innerHTML = "<p style='font-size:0.9rem; color:red;'>Error loading menu. Please refresh.</p>";
     }
   }
@@ -601,7 +628,7 @@
   function addToCart(item) {
     const existing = cart.find(i => i.name === item.name);
     if (existing) {
-      existing.quantity += 1;
+      existing.quantity += 1;  // first increment by 1
     } else {
       cart.push({ ...item, quantity: 1 });
     }
@@ -616,13 +643,17 @@
     let newQty = item.quantity + delta;
 
     if (isRice) {
+      // Round to nearest 0.5
       newQty = Math.round(newQty * 2) / 2;
+
+      // Minimum 1 portion; below that removes the item
       if (newQty < 1) {
         cart = cart.filter(i => i.name !== name);
         renderCart();
         return;
       }
     } else {
+      // Non-rice: integer steps
       newQty = Math.round(newQty);
       if (newQty <= 0) {
         cart = cart.filter(i => i.name !== name);
@@ -772,11 +803,13 @@
         body: JSON.stringify(payload)
       });
 
+      // Build on-screen receipt from the data we already have
       buildReceipt(orderId, customerLocation, customerName, phone, notes, cart, total);
 
       messageEl.style.color = "green";
       messageEl.textContent = "Order placed! We’ve received it.";
 
+      // Clear inputs/cart AFTER building receipt
       cart = [];
       renderCart();
       customerNameInput.value = "";
