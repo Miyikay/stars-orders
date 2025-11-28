@@ -7,18 +7,21 @@
   <style>
     :root {
       --primary: #ff5a1f;
-      --primary-soft: #ffe6da;
-      --primary-dark: #e04b13;
-      --bg: #f7f7f7;
+      --primary-soft: #ffe6d5;
+      --bg: #f5f5f8;
       --card-bg: #ffffff;
       --border: #e0e0e0;
-      --text-main: #222222;
-      --text-muted: #666666;
-      --danger: #e02424;
-      --success: #0f9d58;
+      --text-main: #222;
+      --text-muted: #666;
+      --badge-received: #ffe6d5;
+      --badge-preparing: #fff3cd;
+      --badge-completed: #d1f7d6;
+      --badge-cancelled: #f8d7da;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -30,181 +33,167 @@
 
     h1 {
       margin: 0 0 4px 0;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
     }
 
     .subtitle {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
-      margin-bottom: 16px;
     }
 
     .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      gap: 12px;
       flex-wrap: wrap;
-      margin-bottom: 10px;
+      gap: 8px;
+      margin-bottom: 12px;
     }
 
-    .brand {
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--primary);
-      font-size: 0.8rem;
-    }
-
-    .pill {
+    .pill-live {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 4px 10px;
+      padding: 5px 10px;
       border-radius: 999px;
-      font-size: 0.78rem;
       background: var(--primary-soft);
-      color: var(--primary-dark);
-    }
-
-    .pill-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #0f9d58;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 12px;
-      border: 1px solid var(--border);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-    }
-
-    th, td {
-      padding: 8px 6px;
-      border-bottom: 1px solid #f0f0f0;
-      text-align: left;
-      vertical-align: top;
-    }
-
-    th {
+      color: var(--primary);
       font-size: 0.8rem;
       font-weight: 600;
-      color: var(--text-muted);
-      background: #fafafa;
-      position: sticky;
-      top: 0;
-      z-index: 1;
     }
 
-    tr:nth-child(even) td {
-      background: #fcfcfc;
+    .pill-live span:first-child {
+      font-size: 0.7rem;
     }
 
-    .chip {
-      display: inline-flex;
+    .controls-row {
+      display: flex;
       align-items: center;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      background: #f3f3f3;
-      color: var(--text-main);
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
     }
 
-    .chip.received {
-      background: #fff3e0;
-      color: #e65100;
-    }
-
-    .chip.preparing {
-      background: #e3f2fd;
-      color: #0d47a1;
-    }
-
-    .chip.completed {
-      background: #e8f5e9;
-      color: #1b5e20;
-    }
-
-    .chip.cancelled {
-      background: #ffebee;
-      color: #b71c1c;
-    }
-
-    select {
-      padding: 4px 6px;
-      border-radius: 8px;
+    select, input {
+      padding: 6px 8px;
+      border-radius: 6px;
       border: 1px solid var(--border);
-      font-size: 0.8rem;
+      font-size: 0.85rem;
+      font-family: inherit;
+    }
+
+    button {
+      font-family: inherit;
     }
 
     .btn {
       border: none;
       border-radius: 999px;
-      padding: 6px 12px;
-      font-size: 0.8rem;
+      padding: 6px 14px;
+      font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
-      background: var(--primary);
-      color: white;
-      white-space: nowrap;
-    }
-
-    .btn:hover {
-      background: var(--primary-dark);
-    }
-
-    .btn-small {
-      padding: 4px 10px;
-      font-size: 0.78rem;
-    }
-
-    .toolbar {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.8rem;
-      margin-bottom: 8px;
-      color: var(--text-muted);
+      gap: 4px;
+      background: var(--primary);
+      color: #fff;
     }
 
-    .toolbar select {
-      font-size: 0.8rem;
+    .btn-secondary {
+      background: #f1f1f1;
+      color: var(--text-main);
     }
 
     .meta {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .status-message {
       font-size: 0.8rem;
-      margin-top: 4px;
-      min-height: 18px;
+      color: var(--text-muted);
     }
 
-    .status-message.ok {
-      color: var(--success);
+    .date-section {
+      background: var(--card-bg);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+      overflow: hidden;
     }
 
-    .status-message.err {
-      color: var(--danger);
+    .date-header {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      background: #fafafa;
+    }
+
+    .date-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .date-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    th, td {
+      padding: 6px 8px;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-received { background: var(--badge-received); }
+    .badge-preparing { background: var(--badge-preparing); }
+    .badge-completed { background: var(--badge-completed); }
+    .badge-cancelled { background: var(--badge-cancelled); }
+
+    .status-select {
+      font-size: 0.75rem;
+    }
+
+    .btn-save {
+      padding: 4px 10px;
+      font-size: 0.75rem;
+    }
+
+    .orders-wrapper {
+      max-height: calc(100vh - 140px);
+      overflow: auto;
+      padding-right: 4px;
     }
 
     @media (max-width: 900px) {
-      table {
-        font-size: 0.8rem;
-      }
-      th, td {
-        padding: 6px 4px;
+      th:nth-child(4),
+      td:nth-child(4) {
+        display: none; /* hide phone on small screens */
       }
     }
   </style>
@@ -213,23 +202,21 @@
 
 <div class="top-bar">
   <div>
-    <div class="brand">STARS ORDERS</div>
+    <div style="font-size:0.8rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--primary); font-weight:700;">
+      Stars Orders
+    </div>
     <h1>Admin</h1>
     <div class="subtitle">View and manage all incoming orders from your Google Sheet.</div>
   </div>
-  <div class="pill">
-    <span class="pill-dot"></span>
+  <div class="pill-live">
+    <span>●</span>
     <span>Live dashboard</span>
   </div>
 </div>
 
-<div class="meta">
-  Last refresh: <span id="lastRefresh">–</span>
-</div>
-
-<div class="toolbar card" style="margin-bottom:10px;">
+<div class="controls-row">
   <div>
-    Filter by status:
+    <span class="meta">Filter by status:</span>
     <select id="statusFilter">
       <option value="All">All</option>
       <option value="Received">Received</option>
@@ -238,252 +225,208 @@
       <option value="Cancelled">Cancelled</option>
     </select>
   </div>
-  <button class="btn btn-small" id="refreshBtn">Refresh</button>
-  <div id="toolbarMsg" class="status-message"></div>
+  <button class="btn" id="refreshBtn">Refresh</button>
+  <span id="metaInfo" class="meta"></span>
 </div>
 
-<div class="card" style="overflow:auto; max-height: calc(100vh - 170px);">
-  <table id="ordersTable">
-    <thead>
-      <tr>
-        <th>Order ID</th>
-        <th>Time</th>
-        <th>Location</th>
-        <th>Customer</th>
-        <th>Phone</th>
-        <th>Items</th>
-        <th>Total (₦)</th>
-        <th>Notes</th>
-        <th>Status</th>
-        <th>Update</th>
-      </tr>
-    </thead>
-    <tbody id="ordersBody">
-      <!-- rows injected here -->
-    </tbody>
-  </table>
+<div class="orders-wrapper" id="ordersWrapper">
+  <!-- date sections injected here -->
 </div>
 
 <script>
-  // 🔗 SAME SCRIPT URL AS order.html
+  // 🔗 CHANGE THIS to your deployed Apps Script URL
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzS4r5yE1x76Na6wpwolo_g96g9SeJ64Lx6LlZyENpiZWuZ_HBnRu1apN75cAmjvjjv9g/exec";
-//https://script.google.com/macros/s/AKfycbzS4r5yE1x76Na6wpwolo_g96g9SeJ64Lx6LlZyENpiZWuZ_HBnRu1apN75cAmjvjjv9g/exec
-  const statusOptions = ["Received", "Preparing", "Completed", "Cancelled"];
 
-  const ordersBody   = document.getElementById("ordersBody");
-  const statusFilter = document.getElementById("statusFilter");
-  const refreshBtn   = document.getElementById("refreshBtn");
-  const lastRefresh  = document.getElementById("lastRefresh");
-  const toolbarMsg   = document.getElementById("toolbarMsg");
+  let ADMIN_PIN = localStorage.getItem("stars_admin_pin") || "";
 
-  let allOrders = [];
-  let adminPin  = "";     // we only store it in memory on the page
-
-  // --------------------------------------------------
-  // Ask for PIN and then load data
-  // --------------------------------------------------
-  function askForPin() {
-    const entered = prompt("Enter admin PIN:");
-    if (!entered) {
-      document.body.innerHTML = "<p style='padding:16px;font-family:sans-serif;'>Access cancelled.</p>";
-      throw new Error("PIN entry cancelled");
+  if (!ADMIN_PIN) {
+    ADMIN_PIN = prompt("Enter admin PIN:");
+    if (ADMIN_PIN) {
+      localStorage.setItem("stars_admin_pin", ADMIN_PIN);
     }
-    adminPin = entered;
   }
 
-  // --------------------------------------------------
-  // Load orders from Apps Script (GET ?mode=orders&pin=...)
-  // --------------------------------------------------
+  const statusFilterEl = document.getElementById("statusFilter");
+  const refreshBtn = document.getElementById("refreshBtn");
+  const metaInfoEl = document.getElementById("metaInfo");
+  const ordersWrapper = document.getElementById("ordersWrapper");
+
+  refreshBtn.addEventListener("click", loadOrders);
+  statusFilterEl.addEventListener("change", loadOrders);
+
+  function getStatusBadgeClass(status) {
+    const s = String(status || "").toLowerCase();
+    if (s === "preparing") return "badge-preparing";
+    if (s === "completed") return "badge-completed";
+    if (s === "cancelled") return "badge-cancelled";
+    return "badge-received";
+  }
+
+  function getStatusOptionsHtml(current) {
+    const options = ["Received", "Preparing", "Completed", "Cancelled"];
+    return options.map(s =>
+      `<option value="${s}" ${s === current ? "selected" : ""}>${s}</option>`
+    ).join("");
+  }
+
+  function groupByDate(orders) {
+    const map = new Map();
+    orders.forEach(o => {
+      const parts = String(o.time || "").split(" ");
+      const dateOnly = parts[0] || "Unknown date";
+      if (!map.has(dateOnly)) map.set(dateOnly, []);
+      map.get(dateOnly).push(o);
+    });
+    return map;
+  }
+
+  function renderOrders(orders) {
+    ordersWrapper.innerHTML = "";
+    if (!orders || orders.length === 0) {
+      ordersWrapper.innerHTML = "<p class='meta'>No orders found.</p>";
+      return;
+    }
+
+    const grouped = groupByDate(orders);
+
+    [...grouped.entries()].sort((a, b) => {
+      // newest date first
+      return new Date(b[0]) - new Date(a[0]);
+    }).forEach(([date, list]) => {
+      const totalForDay = list.reduce((sum, o) => sum + (o.total || 0), 0);
+
+      const section = document.createElement("section");
+      section.className = "date-section";
+
+      const header = document.createElement("div");
+      header.className = "date-header";
+      header.innerHTML = `
+        <div class="date-title">${date}</div>
+        <div class="date-meta">
+          ${list.length} order${list.length > 1 ? "s" : ""} • Total ₦${totalForDay}
+        </div>
+      `;
+      section.appendChild(header);
+
+      const table = document.createElement("table");
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Time</th>
+            <th>Location</th>
+            <th>Customer / Phone</th>
+            <th>Items</th>
+            <th>Total (₦)</th>
+            <th>Notes</th>
+            <th>Status</th>
+            <th>Update</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${list.map(o => `
+            <tr data-row="${o.rowIndex}">
+              <td>${o.orderId || ""}</td>
+              <td>${o.time || ""}</td>
+              <td>${o.location || ""}</td>
+              <td>
+                <strong>${o.customerName || ""}</strong><br>
+                <span class="meta">${o.phone || ""}</span>
+              </td>
+              <td>${o.items || ""}</td>
+              <td>${o.total || 0}</td>
+              <td>${o.notes || ""}</td>
+              <td>
+                <span class="badge ${getStatusBadgeClass(o.status)}">
+                  ${o.status || "Received"}
+                </span>
+              </td>
+              <td>
+                <select class="status-select">
+                  ${getStatusOptionsHtml(o.status)}
+                </select>
+                <button class="btn btn-save">Save</button>
+              </td>
+            </tr>
+          `).join("")}
+        </tbody>
+      `;
+      section.appendChild(table);
+      ordersWrapper.appendChild(section);
+    });
+
+    // wire up Save buttons
+    ordersWrapper.querySelectorAll(".btn-save").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const row = btn.closest("tr");
+        const rowIndex = row.getAttribute("data-row");
+        const select = row.querySelector("select.status-select");
+        const newStatus = select.value;
+        await updateStatus(rowIndex, newStatus);
+      });
+    });
+  }
+
   async function loadOrders() {
+    if (!ADMIN_PIN) {
+      alert("No admin PIN set.");
+      return;
+    }
+    const filter = statusFilterEl.value || "All";
+    metaInfoEl.textContent = "Loading orders…";
+
     try {
-      if (!adminPin) askForPin();
-
-      toolbarMsg.textContent = "Loading...";
-      toolbarMsg.className = "status-message";
-
-      const filterVal = statusFilter.value || "All";
-      const url = SCRIPT_URL +
-        "?mode=orders" +
-        "&pin=" + encodeURIComponent(adminPin) +
-        "&status=" + encodeURIComponent(filterVal);
+      const url = `${SCRIPT_URL}?mode=orders&pin=${encodeURIComponent(
+        ADMIN_PIN
+      )}&status=${encodeURIComponent(filter)}`;
 
       const resp = await fetch(url);
       const data = await resp.json();
 
       if (!data.success) {
-        if (data.error === "Unauthorized") {
-          adminPin = "";
-          alert("Wrong PIN. Please try again.");
-          askForPin();
-          return loadOrders();
-        }
         throw new Error(data.error || "Unknown error");
       }
 
-      allOrders = data.orders || [];
-
-      renderOrders();
-
-      const tsStr = data.lastRefresh
-        ? new Date(data.lastRefresh).toLocaleString()
-        : new Date().toLocaleString();
-      lastRefresh.textContent = tsStr;
-
-      toolbarMsg.textContent = "Loaded " + allOrders.length + " orders.";
-      toolbarMsg.className = "status-message ok";
+      renderOrders(data.orders || []);
+      const when = new Date(data.lastRefresh || Date.now());
+      metaInfoEl.textContent =
+        `Last refresh: ${when.toLocaleString()} • Loaded ${data.orders.length} orders.`;
     } catch (err) {
       console.error(err);
-      toolbarMsg.textContent = "Error loading orders.";
-      toolbarMsg.className = "status-message err";
+      metaInfoEl.textContent = "Error loading orders. Check PIN or script URL.";
     }
   }
 
-  // --------------------------------------------------
-  // Render table rows with dropdown + Save
-  // --------------------------------------------------
-  function renderOrders() {
-    ordersBody.innerHTML = "";
-
-    if (!allOrders.length) {
-      const tr = document.createElement("tr");
-      const td = document.createElement("td");
-      td.colSpan = 10;
-      td.textContent = "No orders found.";
-      td.style.textAlign = "center";
-      td.style.color = "#777";
-      tr.appendChild(td);
-      ordersBody.appendChild(tr);
-      return;
-    }
-
-    allOrders.forEach(order => {
-      const tr = document.createElement("tr");
-
-      const tdOrderId = document.createElement("td");
-      tdOrderId.textContent = order.orderId || "";
-      tr.appendChild(tdOrderId);
-
-      const tdTime = document.createElement("td");
-      tdTime.textContent = order.time;
-      tr.appendChild(tdTime);
-
-      const tdLocation = document.createElement("td");
-      tdLocation.textContent = order.location;
-      tr.appendChild(tdLocation);
-
-      const tdCustomer = document.createElement("td");
-      tdCustomer.textContent = order.customerName;
-      tr.appendChild(tdCustomer);
-
-      const tdPhone = document.createElement("td");
-      tdPhone.textContent = order.phone;
-      tr.appendChild(tdPhone);
-
-      const tdItems = document.createElement("td");
-      tdItems.textContent = order.items;
-      tr.appendChild(tdItems);
-
-      const tdTotal = document.createElement("td");
-      tdTotal.textContent = order.total;
-      tr.appendChild(tdTotal);
-
-      const tdNotes = document.createElement("td");
-      tdNotes.textContent = order.notes;
-      tr.appendChild(tdNotes);
-
-      const tdStatus = document.createElement("td");
-      const chip = document.createElement("span");
-      const st = (order.status || "Received");
-      chip.className = "chip " + st.toLowerCase();
-      chip.textContent = st;
-      tdStatus.appendChild(chip);
-      tr.appendChild(tdStatus);
-
-      const tdUpdate = document.createElement("td");
-
-      const select = document.createElement("select");
-      statusOptions.forEach(opt => {
-        const o = document.createElement("option");
-        o.value = opt;
-        o.textContent = opt;
-        if (st === opt) o.selected = true;
-        select.appendChild(o);
-      });
-
-      const btn = document.createElement("button");
-      btn.className = "btn btn-small";
-      btn.textContent = "Save";
-
-      btn.addEventListener("click", () => {
-        const newStatus = select.value;
-        updateStatus(order.rowIndex, newStatus, chip, order);
-      });
-
-      tdUpdate.appendChild(select);
-      tdUpdate.appendChild(document.createTextNode(" "));
-      tdUpdate.appendChild(btn);
-
-      tr.appendChild(tdUpdate);
-
-      ordersBody.appendChild(tr);
-    });
-  }
-
-  // --------------------------------------------------
-  // Call Apps Script to update status (POST, no-cors)
-  // body: { action:"updateStatus", rowIndex, status, pin }
-  // We DON'T read the JSON response to avoid parse / CORS errors.
-  // --------------------------------------------------
-  async function updateStatus(rowIndex, newStatus, chipEl, orderObj) {
+  async function updateStatus(rowIndex, status) {
     try {
-      if (!adminPin) askForPin();
+      const payload = {
+        action: "updateStatus",
+        rowIndex: Number(rowIndex),
+        status: status,
+        pin: ADMIN_PIN
+      };
 
-      toolbarMsg.textContent = "Saving...";
-      toolbarMsg.className = "status-message";
-
-      await fetch(SCRIPT_URL, {
+      const resp = await fetch(SCRIPT_URL, {
         method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8"
-        },
-        body: JSON.stringify({
-          action: "updateStatus",
-          rowIndex: rowIndex,
-          status: newStatus,
-          pin: adminPin
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
       });
 
-      // Assume success and update UI / local copy
-      orderObj.status = newStatus;
-      chipEl.textContent = newStatus;
-      chipEl.className = "chip " + newStatus.toLowerCase();
+      const data = await resp.json();
+      if (!data.success) {
+        throw new Error(data.error || "Unknown error");
+      }
 
-      toolbarMsg.textContent = "Status update sent (may take a moment to reflect in the sheet).";
-      toolbarMsg.className = "status-message ok";
+      await loadOrders();
     } catch (err) {
       console.error(err);
-      toolbarMsg.textContent = "Error updating status.";
-      toolbarMsg.className = "status-message err";
+      alert("Error updating status. Check PIN / script logs.");
     }
   }
 
-  // --------------------------------------------------
-  // Events
-  // --------------------------------------------------
-  statusFilter.addEventListener("change", loadOrders);
-  refreshBtn.addEventListener("click", loadOrders);
-
-  // --------------------------------------------------
-  // Init
-  // --------------------------------------------------
-  (function init() {
-    askForPin();
-    loadOrders();
-  })();
+  // initial load
+  loadOrders();
 </script>
 
 </body>
 </html>
-
